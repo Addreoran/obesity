@@ -18,7 +18,7 @@ deseq2_result<-function(ps){
 }
 
 
-ancombc2_result <- function(ps, ps_tax_level){
+ancombc2_result <- function(ps){
   output_ancomb2_ark5 <- ancombc2(data = ps, 
                                 p_adj_method = "BH",
                                fix_formula = "research",
