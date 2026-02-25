@@ -34,7 +34,7 @@ deseq2_ancombc2_result <- function(deseq2_result, ancombc2_result, tax_table, ot
   deseq2_result<-deseq_res
   ancombc2_result<-ancomb_res
   deseq2_result$taxon <- rownames(deseq2_result)  
-  df_to_save <- merge(deseq2_result, ancombc2_result, by="taxon",all = T )
+  df_to_save <- merge(deseq2_result,ancombc2_result, by.x=0,by.y="taxon",all = T )
   df_additional_info<-merge(tax_tab, otu_tab, by=0, all = T )
   write.csv2(merge(deseq2_result, ancombc2_result, by.0="taxon", by.1='Row.names', all = T ), save_path)
 }
