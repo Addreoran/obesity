@@ -30,7 +30,7 @@ ancombc2_result <- function(ps){
 
  # tax_tab<-as.data.frame(unclass(tax_table(ps)))
  # otu_tab<-as.data.frame(unclass(otu_table(ps)))
-deseq2_ancombc2_result <- function(deseq_res, ancombc_res, tax_table, otu_table, save_path){
+deseq2_ancombc2_result <- function(deseq_res, ancomb_res, tax_table, otu_table, save_path){
   deseq2_result<-deseq_res
   ancombc2_result<-ancomb_res
   deseq2_result$taxon <- rownames(deseq2_result)  
