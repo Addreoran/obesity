@@ -12,7 +12,7 @@ Permanova <-function(ps, method){
   ps_dist_matrix <- phyloseq::distance(ps, method=method)
   permanova_pairwise <- vegan::adonis2(ps_dist_matrix ~ phyloseq::sample_data(ps)$research, permutations = 9999)
   betadisper(ps_dist_matrix, sample_data(ps)$research)
-  return(c(permanova_pairwise, permanova_pairwise$R2[1]))
+  return(c(permanova_pairwise$`Pr(>F)`[1], permanova_pairwise$R2[1]))
 }
 
 
