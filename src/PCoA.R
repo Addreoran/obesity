@@ -15,7 +15,7 @@ PCoAAitch <-function(ps, save_path, width=10, height=8){
 
 PCoABray <- function(ps, save_path, width=10, height=8){
   ps.prop <- transform_sample_counts(ps, function(otu) otu/sum(otu))
-  ord.nmds.bray <- ordinate(ps.prop, method="NMDS", distance="bray")
+  ord.nmds.bray <- microbiome::ordinate(ps.prop, method="NMDS", distance="bray")
   
   image<-plot_ordination(ps.prop, ord.nmds.bray, color = "research") +
     geom_point(size = 3)+
