@@ -43,7 +43,7 @@ run <- function(metadata_path, otu_path, tax_path, suffix){
   
   ##
   tax_difference(ps, folder, suffix, tax_lvl="family")
-  tax_stats(ps, "phylum")
+  tax_stats(ps, "phylum", folder)
 }
 
 suffix <- "by_metric"
