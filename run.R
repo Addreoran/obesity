@@ -3,6 +3,7 @@ source("./src/DifferentialBacteria.R")
 source("./src/PCoA.R")
 source("./src/AnosimPermanova.R")
 source("./src/AlfaDiversity.R")
+source("./src/TaxDifference.R")
 
 run <- function(metadata_path, otu_path, tax_path, suffix){
    folder<-"./result/"
@@ -41,7 +42,8 @@ run <- function(metadata_path, otu_path, tax_path, suffix){
   AlfaDiversity(ps_genus, folder, suffix)
   
   ##
-  tax_differences
+  tax_difference(ps, folder, suffix, tax_lvl="family")
+  tax_stats(ps, "phylum")
 }
 
 # analyse by CAP with threshold 250
