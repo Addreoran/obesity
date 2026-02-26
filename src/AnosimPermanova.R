@@ -1,32 +1,24 @@
 library(vegan)
 library(permute)
+#install.packages('devtools')
+library(devtools)
+#install_github("pmartinezarbizu/pairwiseAdonis/pairwiseAdonis")
+library(pairwiseAdonis)
+
+Permanova <-function(ps, method){
+  data_prop_bray <- phyloseq::distance(ps, method = method)
+  sampledf <- data.frame(sample_data(ps))
+  ht_well <- adonis2(data_prop_bray ~ research, data = sampledf)
+  ps_dist_matrix <- phyloseq::distance(ps, method=method)
+  permanova_pairwise <- vegan::adonis2(ps_dist_matrix ~ phyloseq::sample_data(ps)$research, permutations = 9999)
+  betadisper(ps_dist_matrix, sample_data(ps_genus)$research)
+  return(c(permanova_pairwise, permanova_pairwise$R2[1]))
+}
 
 
-
-ps_merged_glom_ark5<-tax_glom(ps, "genus")
-
-
-###
-metadata_sub <- data.frame(sample_data(ps_merged_glom_ark5))
-permanova_pairwise <- adonis2(phyloseq::distance(ps_merged_glom_ark5, method = "euclidean") ~ research, 
-                              data = metadata_sub)
-p <- c(p, permanova_pairwise$`Pr(>F)`[1])
-
-
-metadata_sub <- data.frame(sample_data(ps_merged_glom_ark5))
-permanova_anosim<- anosim(phyloseq::distance(ps_merged_glom_ark5, method="euclidean", binary = TRUE), 
-                             metadata_sub$research)
-p <- c(p, permanova_pairwise$signif)
-
-
-###
-metadata_sub <- data.frame(sample_data(ps_merged_glom_ark5))
-permanova_pairwise <- adonis2(phyloseq::distance(ps_merged_glom_ark5, method = "euclidean") ~ research, 
-                              data = metadata_sub)
-p <- c(p, permanova_pairwise$`Pr(>F)`[1])
-
-
-metadata_sub <- data.frame(sample_data(ps_merged_glom_ark5))
-permanova_anosim<- anosim(phyloseq::distance(ps_merged_glom_ark5, method="euclidean", binary = TRUE), 
-                             metadata_sub$research)
-p <- c(p, permanova_pairwise$signif)
+Anosim <- function(ps, method){
+  metadata <- data.frame(sample_data(ps))
+  anosim_test<-anosim(phyloseq::distance(ps, method=method), 
+                             metadata$research, permutations = 9999)
+  return(c(anosim_test$signif, anosim_test$statistic))
+}
