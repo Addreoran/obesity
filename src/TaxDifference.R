@@ -39,7 +39,7 @@ tax_difference <- function(ps, folder, suffix, tax_lvl="genus"){
 }
 
 
-tax_stats <- function(ps, tax_lvl){
+tax_stats <- function(ps, tax_lvl, folder){
   sample_sums(ps)
   ps_phylum <- tax_glom(ps, taxrank = tax_lvl)
   ps_rel <- transform_sample_counts(ps_phylum, function(x) x / sum(x) * 100)
