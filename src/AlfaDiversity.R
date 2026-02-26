@@ -54,6 +54,7 @@ TestDiversity <- function(ps, folder, suffix){
   result <- data.frame(wilcoxon=c(res_chao_wilcoxon, res_shan_wilcoxon, res_simpson_wilcoxon, res_fisher_wilcoxon, res_observed_wilcoxon), 
                      kruskal=c(res_chao, res_shan, res_simpson, res_fisher, res_observed), row.names=c("Chao1", "Shannon", "Simpson", "Fisher", "Observed"))
   write.csv(result, paste0(folder, suffix, "_wilcoxon_kruskal.csv"))
+  return(result)
 
   
 }
