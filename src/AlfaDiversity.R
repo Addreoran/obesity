@@ -4,19 +4,21 @@ library(tibble)
 
 AlfaDiversity <- function(ps, folder, suffix){
 
-  p <- plot_richness(ps_genus, "research", measures = c("Chao1",  "Observed"))
-  p <- p + theme_bw() + geom_boxplot(aes(fill = research))+ theme(axis.text.x = element_text(angle=90, hjust=1), legend.position="none") 
+  p <- plot_richness(ps, "research", measures = c("Chao1",  "Observed", "Fisher"))
+  p <- p + theme_bw() + geom_boxplot(aes(fill = research))+ theme(axis.text.x = element_text(angle=90, hjust=1), legend.position="none") + 
+  stat_compare_means()
   
   ggsave(
-    paste0(folder, suffix, "entropy_1.svg"),
+    paste0(folder, suffix, "_entropy_1.svg"),
     plot = p,
     width=8, height=8
   )
-    p <- plot_richness(ps_genus, "research", measures = c("Shannon", "Simpson", "Fisher"))
-  p <- p + theme_bw() + geom_boxplot(aes(fill = research))+ theme(axis.text.x = element_text(angle=90, hjust=1), legend.position="none") 
+    p <- plot_richness(ps, "research", measures = c("Shannon", "Simpson"))
+  p <- p + theme_bw() + geom_boxplot(aes(fill = research))+ theme(axis.text.x = element_text(angle=90, hjust=1), legend.position="none") + 
+  stat_compare_means()
   
   ggsave(
-    paste0(folder, suffix, "entropy_2.svg"),
+    paste0(folder, suffix, "_entropy_2.svg"),
     plot = p,
     width=12, height=8
   )
