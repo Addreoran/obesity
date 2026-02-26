@@ -1,10 +1,10 @@
 #library(BiocManager)
 #BiocManager::install("microbiome")
-
+library(microbiome)
 
 PCoAAitch <-function(ps, save_path, width=10, height=8){
   #ps <- transform_sample_counts(ps, function(x) x + 1)
-  ps.clr <- transform(ps, "clr")
+  ps.clr <- microbiome::transform(ps, "clr")
   pcoa_euclidean <- ordinate(ps.clr, "PCoA", "euclidean")
   image <- phyloseq::plot_ordination(ps.clr, pcoa_euclidean, color = "research") +
     geom_point(size = 3) +
