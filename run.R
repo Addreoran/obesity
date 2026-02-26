@@ -1,9 +1,11 @@
 source("./src/read_data.R")
 source("./src/differential_bacteria.R")
 source("./src/PCoA.R")
-
+source("./src/AnosimPermanova.R")
+source("./src/AlfaDiversity.R")
 
 run <- function(metadata_path, otu_path, tax_path, suffix){
+   folder<-"./result/"
    ps <- read_and_parse_data(metadata_path, otu_path, tax_path)
    ps_genus <- tax_glom(ps, "genus")
 
@@ -26,11 +28,17 @@ run <- function(metadata_path, otu_path, tax_path, suffix){
   PCoABray(ps_genus, save_path_PCoABray)
   
   ##
-  Anosim
-  Permanova
+  method <- "bray"
+  permanova_bray <- Permanova(ps_genus, method)
+  anosim_bray <- Anosim(ps_genus, method)
+  
+  method <- "euclidean"
+  permanova_bray <- Permanova(ps_genus, method)
+  anosim_bray <- Anosim(ps_genus, method)
   
   ##
-  alfa_diversity
+  test_diversity <- TestDiversity(ps_genus, folder, suffix)
+  AlfaDiversity(ps_genus, folder, suffix)
   
   ##
   tax_differences
