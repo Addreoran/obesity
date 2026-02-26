@@ -34,9 +34,12 @@ run <- function(metadata_path, otu_path, tax_path, suffix){
   anosim_bray <- Anosim(ps_genus, method)
   
   method <- "euclidean"
-  permanova_bray <- Permanova(ps_genus, method)
-  anosim_bray <- Anosim(ps_genus, method)
-  
+  permanova_euclidean <- Permanova(ps_genus, method)
+  anosim_euclidean <- Anosim(ps_genus, method)
+
+  result_anosim_anova <- data_frame(Permanova_Bray=permanova_bray, anosim_bray=anosim_bray, permanova_euclidean=permanova_euclidean, anosim_euclidean=anosim_euclidean)
+  write.csv(result_anosim_anova, paste0("./result/", suffix, "_anova_permanova.csv")
+            
   ##
   test_diversity <- TestDiversity(ps_genus, folder, suffix)
   AlfaDiversity(ps_genus, folder, suffix)
