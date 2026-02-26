@@ -1,5 +1,5 @@
-source("./src/read_data.R")
-source("./src/differential_bacteria.R")
+source("./src/ReadData.R")
+source("./src/DifferentialBacteria.R")
 source("./src/PCoA.R")
 source("./src/AnosimPermanova.R")
 source("./src/AlfaDiversity.R")
