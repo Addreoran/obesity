@@ -46,9 +46,8 @@ run <- function(metadata_path, otu_path, tax_path, suffix){
   tax_stats(ps, "phylum")
 }
 
-# analyse by CAP with threshold 250
 metadata_path <- "./data/metadata_by_metric.csv"
 otu_path <- "./data/otu_by_metric.csv"
 tax_path <- "./data/tax_data_by_metric.csv"
-
-run(metadata_path, otu_path, tax_path, "by_metric")
+suffix <- "by_metric"
+run(metadata_path, otu_path, tax_path, suffix)
