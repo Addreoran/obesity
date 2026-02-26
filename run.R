@@ -46,8 +46,12 @@ run <- function(metadata_path, otu_path, tax_path, suffix){
   tax_stats(ps, "phylum")
 }
 
-metadata_path <- "./data/metadata_by_metric.csv"
-otu_path <- "./data/otu_by_metric.csv"
-tax_path <- "./data/tax_data_by_metric.csv"
 suffix <- "by_metric"
+
+metadata_path <- paste0("./data/metadata_",suffix,".csv")
+otu_path <- paste0("./data/otu_",suffix,".csv")
+tax_path <- paste0("./data/tax_data_",suffix,".csv")
+
 run(metadata_path, otu_path, tax_path, suffix)
+
+
