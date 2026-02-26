@@ -17,9 +17,16 @@ tax_difference <- function(ps, folder, suffix, tax_lvl="genus"){
   ps.melt_sum <- ps.melt %>%
     group_by(research,Tax) %>%
     summarise(Abundance=sum(Abundance))
-  
+  tax_order <- ps.melt_sum %>%
+  group_by(Tax) %>%
+  summarise(total = sum(Abundance)) %>%
+  arrange(desc(total)) %>%
+  pull(Tax)
+
+  ps.melt_sum$Tax <- factor(ps.melt_sum$Tax,
+                          levels = c("< 1%", setdiff(tax_order, "< 1%")))
   g <- ggplot(ps.melt_sum, aes(x = research, y = Abundance, fill = Tax)) + 
-  geom_bar(stat = "identity", position = "fill") + 
+  geom_bar(stat = "identity", position = "fill", colour="white", linewidth=0.2) + 
   labs(x="", y="Relative abundance (%)") +
   scale_y_continuous(labels = scales::percent_format(scale = 100)) +
   theme_classic() + 
