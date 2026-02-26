@@ -1,6 +1,6 @@
 
 
-AlfaDiversity <- function(ps, folder, suffix, tax_lvl="genus"){
+tax_difference <- function(ps, folder, suffix, tax_lvl="genus"){
   ps_differential<-tax_glom(ps, tax_lvl)
   ps.rel = transform_sample_counts(ps_differential, function(x) x/sum(x)*100)
   glom <- tax_glom(ps.rel, taxrank = tax_lvl, NArm = FALSE)
