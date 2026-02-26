@@ -1,6 +1,7 @@
 # alfa-diversity
 library(dplyr)
 library(tibble)
+library(ggpubr)
 
 AlfaDiversity <- function(ps, folder, suffix){
 
