@@ -13,15 +13,17 @@ run <- function(metadata_path, otu_path, tax_path, suffix){
   
   tax_tab <- as.data.frame(unclass(tax_table(ps_genus)))
   otu_tab <- as.data.frame(unclass(otu_table(ps_genus)))
+  dir.create(file.path("./result/"), showWarnings = FALSE)
   
   differential_save_path <- paste0("./result/differential_ancomb_deseq_",suffix,".csv")
   deseq2_ancombc2_result(deseq_res, ancomb_res, tax_tab, otu_tab, differential_save_path)
   
   ##
   save_path_PCoAAitch <- paste0("./result/PCoA_Aitch", suffix, ".svg")
-  PCoAAitch(ps, save_path_PCoAAitch)
+  
+  PCoAAitch(ps_genus, save_path_PCoAAitch)
   save_path_PCoABray <- paste0("./result/PCoA_Bray", suffix, ".svg")
-  PCoABray(ps, save_path_PCoABray)
+  PCoABray(ps_genus, save_path_PCoABray)
   
   ##
   Anosim
