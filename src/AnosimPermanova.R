@@ -11,7 +11,7 @@ Permanova <-function(ps, method){
   ht_well <- adonis2(data_prop_bray ~ research, data = sampledf)
   ps_dist_matrix <- phyloseq::distance(ps, method=method)
   permanova_pairwise <- vegan::adonis2(ps_dist_matrix ~ phyloseq::sample_data(ps)$research, permutations = 9999)
-  betadisper(ps_dist_matrix, sample_data(ps_genus)$research)
+  betadisper(ps_dist_matrix, sample_data(ps)$research)
   return(c(permanova_pairwise, permanova_pairwise$R2[1]))
 }
 
