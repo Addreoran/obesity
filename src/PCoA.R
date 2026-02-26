@@ -10,7 +10,7 @@ PCoAAitch <-function(ps, save_path, width=10, height=8){
     geom_point(size = 3) +
     geom_text(aes(label = sample_data(ps.clr)$CAP), vjust = -0.5) +
     geom_polygon(stat = "ellipse", aes(fill = research), alpha = 0.3)
-  ggsave(file="test.svg", plot=image, width=10, height=8)
+  ggsave(file=save_path, plot=image, width=10, height=8)
 }
 
 PCoABray <- function(ps, save_path, width=10, height=8){
@@ -21,5 +21,5 @@ PCoABray <- function(ps, save_path, width=10, height=8){
     geom_point(size = 3)+
     geom_text(aes(label = sample_data(ps.prop)$CAP), vjust = -0.5)  +
     geom_polygon(stat = "ellipse", aes(fill = research), alpha = 0.3)
-  ggsave(file="test.svg", plot=image, width=10, height=8)
+  ggsave(file=save_path, plot=image, width=10, height=8)
 }
