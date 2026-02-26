@@ -9,7 +9,7 @@ PCoAAitch <-function(ps, save_path, width=10, height=8){
   image <- phyloseq::plot_ordination(ps.clr, pcoa_euclidean, color = "research") +
     geom_point(size = 3) +
     geom_text(aes(label = sample_data(ps.clr)$CAP), vjust = -0.5) +
-    geom_polygon(stat = "ellipse", aes(fill = cap_th), alpha = 0.3)
+    geom_polygon(stat = "ellipse", aes(fill = research), alpha = 0.3)
   ggsave(file="test.svg", plot=image, width=10, height=8)
 }
 
@@ -20,6 +20,6 @@ PCoABray <- function(ps, save_path, width=10, height=8){
   image<-plot_ordination(ps.prop, ord.nmds.bray, color = "research") +
     geom_point(size = 3)+
     geom_text(aes(label = sample_data(ps.prop)$CAP), vjust = -0.5)  +
-    geom_polygon(stat = "ellipse", aes(fill = cap_th), alpha = 0.3)
+    geom_polygon(stat = "ellipse", aes(fill = research), alpha = 0.3)
   ggsave(file="test.svg", plot=image, width=10, height=8)
 }
