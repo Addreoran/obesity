@@ -53,3 +53,52 @@ tax_stats <- function(ps, tax_lvl, folder){
   write.csv(df_summary, paste0(folder, suffix,"_", tax_lvl,"_percentage.csv"))
   write.csv(sample_sums(ps), paste0(folder, suffix,"_", tax_lvl,"_reads_per_probe.csv"))                                   
 }
+
+
+stats_to_publication <- function(ps, tax_lvl, control, researched, folder){
+    ps_genus <- tax_glom(ps, "genus")
+  
+    sum(otu_table(ps_genus))/nrow(sample_data(ps_genus))
+    
+    ps_phylum <- tax_glom(ps_genus, "phylum")
+    ps_prop <- transform_sample_counts(physeq = ps_phylum, fun = function(x){x/sum(x)})
+    keep <- filter_taxa(ps_prop, function(x){mean(x)  > 0.01})
+    # there is 1%
+    ps_filtered_phylum <- prune_taxa(taxa = keep, x = ps_phylum)
+    
+    ps_filtered_phylum
+    ps_prop <- transform_sample_counts(physeq = ps_genus, fun = function(x){x/sum(x)})
+    keep <- filter_taxa(ps_prop, function(x){mean(x) > 0.0001})
+    # there is 0.01%
+    ps_filtered <- prune_taxa(taxa = keep, x = ps_genus)
+                        
+    
+    subset_samples(ps_genus, research == control) -> ps_kontrola
+    keep <- filter_taxa(ps_kontrola, function(x){mean(x) > 0})
+    ps_kontrola_filtered <- prune_taxa(taxa = keep, x = ps_kontrola)
+    
+    
+                                        
+    ps_kontrola_filtered_phylum<-tax_glom(ps_kontrola, taxrank = 'phylum')
+    
+    ps_kontrola_filtered_phylum <- phyloseq::transform_sample_counts(ps_kontrola_filtered_phylum, function(x) { x/sum(x) } )
+    phyla_rel_bact <- otu_table(subset_taxa(ps_kontrola_filtered_phylum, phylum == "p__Bacteroidota"))
+    phyla_rel_firm <- suppressWarnings(otu_table(subset_taxa(ps_kontrola_filtered_phylum, phylum == "p__Firmicutes")))
+    bf_rati_kontrola <- phyla_rel_bact /  phyla_rel_firm
+    mean(bf_rati_kontrola)
+    
+    subset_samples(ps_genus, research == researched') -> ps_other
+    keep <- filter_taxa(ps_other, function(x){mean(x) > 0})
+    ps_other_filtered <- prune_taxa(taxa = keep, x = ps_other)
+    sum(tax_table(ps_other_filtered)[,'genus'] %in% tax_table(ps_kontrola_filtered)[,'genus'])
+    ps_other_filtered_phylum<- tax_glom(ps_other, taxrank = 'phylum')
+                                        
+    ps_other_filtered_phylum <- phyloseq::transform_sample_counts(ps_other_filtered_phylum, function(x) { x/sum(x) } )
+    phyla_rel_bact <- otu_table(subset_taxa(ps_other_filtered_phylum, phylum == "p__Bacteroidota"))
+    phyla_rel_firm <- suppressWarnings(otu_table(subset_taxa(ps_other_filtered_phylum, phylum == "p__Firmicutes")))
+    bf_ratio_other <- phyla_rel_bact /  phyla_rel_firm
+    mean(bf_ratio_other)
+    wilcox.test(bf_ratio_other[1,], bf_rati_kontrola[1,], 
+                                       p.adjust.method = "BH")
+  }
+        
