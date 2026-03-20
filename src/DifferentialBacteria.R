@@ -79,16 +79,14 @@ p <- ggplot(df_long, aes(x = value, y = group)) +
   
   coord_cartesian(clip = "off") +
   
-  labs(x = "logFC") +
   
   theme_minimal() +
   theme(
     axis.title.y = element_blank(),
     axis.text.y = element_blank(),
     axis.ticks.y = element_blank(),
-    plot.margin = margin(20, 140, 20, 140),
-    strip.placement = "inside",
-    strip.background = element_blank()
+    plot.margin = margin(20, 160, 20, 140),
+    strip.background = element_blank(),
   ) +
   
   geom_text(
@@ -99,7 +97,7 @@ p <- ggplot(df_long, aes(x = value, y = group)) +
         value == 0,
         NA,
         paste(
-          paste0("logFC: ", round(value, 2)),
+          
           gsub("g__", "Genus: ",
                gsub("f__", "Family: ",
                     gsub(";", "\n", group)
@@ -114,10 +112,13 @@ p <- ggplot(df_long, aes(x = value, y = group)) +
     size = 3
   )
 
-
+save_path<-"./result/differential_by_diagnosis.svg"
 ggsave(
-  paste0(save_path),
-  plot = p
+  filename = paste0(save_path),
+  plot = p,
+  width = 30,
+  height = 15,
+  units = "cm"
 )
 
 }
