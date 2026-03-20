@@ -66,27 +66,58 @@ df_long <- df_long |>
   dplyr::group_by(side) |>
   dplyr::mutate(group = reorder(group, value)) |>
   dplyr::ungroup()
+df_long$side <- ifelse(df_long$side == "left", "over-represented", "under-represented")
+
 p <- ggplot(df_long, aes(x = value, y = group)) +
-  geom_col(fill = "lightblue") +
+  geom_col(aes(fill = value < 0)) +
+  scale_fill_manual(
+    values = c("TRUE" = "#EF5350", "FALSE" = "lightblue"),
+    guide = "none"
+  ) +
   
   facet_grid(. ~ side, scales = "free_x", space = "free_x") +
   
-    theme_minimal() +
-    theme(
-    axis.title = element_blank(),
+  coord_cartesian(clip = "off") +
+  
+  labs(x = "logFC") +
+  
+  theme_minimal() +
+  theme(
+    axis.title.y = element_blank(),
     axis.text.y = element_blank(),
     axis.ticks.y = element_blank(),
-    panel.spacing = unit(3, "cm")  # więcej miejsca na etykiety
-  ) + geom_text(aes(label=round(value,2))) +
+    plot.margin = margin(20, 140, 20, 140),
+    strip.placement = "inside",
+    strip.background = element_blank()
+  ) +
   
-  geom_text(data = subset(df_long, side == "left"),
-            aes(x = 0, label = gsub(";", "\n", group)),
-            hjust = 0.5,
-            nudge_x = 1,
-            
-            size = 3)
-  ggsave(
-          paste0(save_path),
-          plot = p,
+  geom_text(
+    aes(
+      x = value,
+      y = group,
+      label = ifelse(
+        value == 0,
+        NA,
+        paste(
+          paste0("logFC: ", round(value, 2)),
+          gsub("g__", "Genus: ",
+               gsub("f__", "Family: ",
+                    gsub(";", "\n", group)
+               )
+          ),
+          sep = "\n"
+        )
+      ),
+      hjust = ifelse(side == "over-represented", 1.05, -0.05)
+    ),
+    lineheight = 0.7,
+    size = 3
   )
+
+
+ggsave(
+  paste0(save_path),
+  plot = p
+)
+
 }
