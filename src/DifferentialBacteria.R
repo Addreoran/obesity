@@ -3,6 +3,8 @@
 
 library(DESeq2)
 library(ANCOMBC)
+library(ggplot2)
+library(tidyr)
 
 deseq2_result<-function(ps){
   no_tries <- rowSums(otu_table(ps)>0)
@@ -37,4 +39,46 @@ deseq2_ancombc2_result <- function(deseq_res, ancomb_res, tax_table, otu_table, 
   df_to_save <- merge(deseq2_result,ancombc2_result, by.x=0,by.y="taxon",all = T )
   df_additional_info<-merge(tax_table, otu_table, by=0, all = T )
   write.csv2(merge(df_to_save, df_additional_info, by='Row.names', all = T ), save_path)
+}
+
+
+plot_ancomb2_significant_results<-function(ancombc2, tax_tab, save_path){
+
+df_ancomb <- merge(ancombc2, tax_tab,by.x=0 ,by.y="taxon", all = T)
+q_name <- colnames(df_ancomb)[grepl("q_research", colnames(df_ancomb))]
+genus_name <- colnames(df_ancomb)[grepl("genus", colnames(df_ancomb))]
+
+df <- data.frame(
+  group = ancombc2$taxon,
+  left  = 0,
+  right = 0
+)
+  
+df_long <- pivot_longer(df, cols = c(left, right),
+                        names_to = "side",
+                        values_to = "value")
+
+df_long$group <- reorder(df_long$group, df_long$value)
+
+p <- ggplot(df_long, aes(x = value, y = group)) +
+  geom_col(fill = "lightblue") +
+  
+  facet_grid(. ~ side, scales = "free_x", space = "free_x") +
+  
+  geom_text(data = subset(df_long, side == "left"),
+            aes(x = 0, label = group),
+            hjust = 0.5,
+            size = 4) +
+  
+    theme_minimal() +
+    theme(
+    axis.title = element_blank(),
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank(),
+    panel.spacing = unit(3, "cm")  # więcej miejsca na etykiety
+  ) + geom_text(aes(label=round(value,2)))
+  ggsave(
+          paste0(save_path),
+          plot = p,
+  )
 }
