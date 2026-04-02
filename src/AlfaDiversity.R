@@ -35,15 +35,15 @@ AlfaDiversity <- function(ps, folder, suffix){
     values = c(
       "Controls" = "#7a7a7a",
       "Overweight/Obesity" = "#FF0000", 
-      "cap<250" = "#7a7a7a", 
-    "cap>=250" = "#FF0000"
+            "cap>=250" = "#7a7a7a", 
+    "cap<250" = "#FF0000"
     )
   )+
   scale_fill_manual(    values = c(
       "Controls" = "#7a7a7a",
       "Overweight/Obesity" = "#FF0000", 
-      "cap<250" = "#7a7a7a", 
-    "cap>=250" = "#FF0000"
+      "cap>=250" = "#7a7a7a", 
+    "cap<250" = "#FF0000"
     ))
  
   ggsave(
