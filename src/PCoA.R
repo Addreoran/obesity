@@ -8,7 +8,7 @@ PCoAAitch <-function(ps_genus, save_path, width=10, height=8){
   pcoa_euclidean <- ordinate(ps.clr, "PCoA", "euclidean")
   image <- phyloseq::plot_ordination(ps.clr, pcoa_euclidean, color = "research") +
     geom_point(size = 3) +
-    geom_text(aes(label = sample_data(ps.clr)$CAP), vjust = -0.5) +
+   # geom_text(aes(label = sample_data(ps.clr)$CAP), vjust = -0.5) +
     geom_polygon(stat = "ellipse", aes(fill = research), alpha = 0.3) +
   scale_color_manual(
     values = c(
