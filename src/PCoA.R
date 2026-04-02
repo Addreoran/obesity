@@ -14,15 +14,15 @@ PCoAAitch <-function(ps_genus, save_path, width=10, height=8){
     values = c(
       "Controls" = "#7a7a7a",
       "Overweight/Obesity" = "#FF0000", 
-            "cap>=250" = "#7a7a7a", 
-    "cap<250" = "#FF0000"
+            "cap>=250" = "#FF0000", 
+    "cap<250" = "#7a7a7a"
     )
   )+
   scale_fill_manual(    values = c(
       "Controls" = "#7a7a7a",
       "Overweight/Obesity" = "#FF0000", 
-      "cap>=250" = "#7a7a7a", 
-    "cap<250" = "#FF0000"
+            "cap>=250" = "#FF0000", 
+    "cap<250" = "#7a7a7a"
     ))
   ggsave(file=save_path, plot=image, width=10, height=8)
 }
