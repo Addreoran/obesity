@@ -7,17 +7,45 @@ AlfaDiversity <- function(ps, folder, suffix){
 
   p <- plot_richness(ps, "research", measures = c("Chao1",  "Observed", "Fisher"))
   p <- p + theme_bw() + geom_boxplot(aes(fill = research))+ theme(axis.text.x = element_text(angle=90, hjust=1), legend.position="none") + 
-  stat_compare_means()
+  stat_compare_means()+
+  scale_color_manual(
+    values = c(
+      "Controls" = "#7a7a7a",
+      "Overweight/Obesity" = "#FF0000", 
+            "cap>=250" = "#7a7a7a", 
+    "cap<250" = "#FF0000"
+    )
+  )+
+  scale_fill_manual(    values = c(
+      "Controls" = "#7a7a7a",
+      "Overweight/Obesity" = "#FF0000", 
+      "cap>=250" = "#7a7a7a", 
+    "cap<250" = "#FF0000"
+    ))
   
   ggsave(
     paste0(folder, suffix, "_entropy_1.svg"),
     plot = p,
     width=8, height=8
   )
-    p <- plot_richness(ps, "research", measures = c("Shannon", "Simpson"))
+    p <- plot_richness(ps_genus, "research", measures = c("Shannon", "Simpson"))
   p <- p + theme_bw() + geom_boxplot(aes(fill = research))+ theme(axis.text.x = element_text(angle=90, hjust=1), legend.position="none") + 
-  stat_compare_means()
-  
+  stat_compare_means()+
+  scale_color_manual(
+    values = c(
+      "Controls" = "#7a7a7a",
+      "Overweight/Obesity" = "#FF0000", 
+      "cap<250" = "#7a7a7a", 
+    "cap>=250" = "#FF0000"
+    )
+  )+
+  scale_fill_manual(    values = c(
+      "Controls" = "#7a7a7a",
+      "Overweight/Obesity" = "#FF0000", 
+      "cap<250" = "#7a7a7a", 
+    "cap>=250" = "#FF0000"
+    ))
+ 
   ggsave(
     paste0(folder, suffix, "_entropy_2.svg"),
     plot = p,
