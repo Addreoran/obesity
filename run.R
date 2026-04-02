@@ -8,6 +8,10 @@ source("./src/TaxDifference.R")
 run <- function(metadata_path, otu_path, tax_path, suffix){
    folder<-"./result/"
    ps <- read_and_parse_data(metadata_path, otu_path, tax_path)
+   if (sample_data(ps)$research in c("Kontrola", "Other")){
+      sample_data(ps)$research[sample_data(ps)$research =="Kontrola"]<-"Controls"
+      sample_data(ps)$research[sample_data(ps)$research =="Other"]<-"Overweight/Obesity"
+   }
    ps_genus <- tax_glom(ps, "genus")
 
   ##
@@ -51,8 +55,10 @@ run <- function(metadata_path, otu_path, tax_path, suffix){
 }
 
 suffix <- "by_metric"
+suffix<-"by_diagnosis"
 
 metadata_path <- paste0("./data/metadata_",suffix,".csv")
+
 otu_path <- paste0("./data/otu_",suffix,".csv")
 tax_path <- paste0("./data/tax_data_",suffix,".csv")
 
